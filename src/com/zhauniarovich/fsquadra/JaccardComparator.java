@@ -14,9 +14,6 @@ public class JaccardComparator {
     private String in2;
     private String outputFilePath;
     
-//    private ArrayList<ApkFileAttributes> apkAttrList = new ArrayList<ApkFileAttributes>();
-    
-    
     public JaccardComparator(String in1, String in2, String outputFileName) {
         this.in1 = in1;
         this.in2 = in2;
@@ -33,7 +30,6 @@ public class JaccardComparator {
             listOfFiles = file.listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
-                // TODO Auto-generated method stub
                 return file.getName().endsWith(".apk");
             }});
         }
@@ -115,6 +111,9 @@ public class JaccardComparator {
                     hashesJ = new HashSet<String>(apkAttrJ.getFileHashMap().values());
                     jlen = hashesJ.size();
                     jaccardDist = PairComparator.getJaccardDistance(hashesI, hashesJ);
+                    if (jaccardDist == 0) {
+                        continue;
+                    }
                     sameCerts = PairComparator.certsTheSame(apkAttrI, apkAttrJ);
                     outLine = createOutString(apkAttrI.getApkName(), apkAttrJ.getApkName(), ilen, jlen, jaccardDist, sameCerts);
                     writer.println(outLine);
@@ -144,6 +143,9 @@ public class JaccardComparator {
                     hashesJ = new HashSet<String>(apkAttrJ.getFileHashMap().values());
                     jlen = hashesJ.size();
                     jaccardDist = PairComparator.getJaccardDistance(hashesI, hashesJ);
+                    if (jaccardDist == 0) {
+                        continue;
+                    }
                     sameCerts = PairComparator.certsTheSame(apkAttrI, apkAttrJ);
                     outLine = createOutString(apkAttrI.getApkName(), apkAttrJ.getApkName(), ilen, jlen, jaccardDist, sameCerts);
                     writer.println(outLine);
@@ -160,47 +162,6 @@ public class JaccardComparator {
                 totalTimeCompare / (1000*1000) + "ms");
         
         writer.close();
-        
-        
-        
-//        PrintWriter writer = null;
-//        
-//        try {
-//            writer = new PrintWriter(outputFilePath, "UTF-8");
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            return;
-//        } catch (UnsupportedEncodingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            return;
-//        }
-//            
-//        final int numOfFiles = apkAttrList.size();
-//        ApkFileAttributes apkAttrI, apkAttrJ;
-//        double jaccardDist;
-//        boolean sameCerts;
-//        int ilen, jlen;
-//        String outLine;
-//        HashSet<String> hashesI, hashesJ;
-//        for (int i = 0; i < numOfFiles; i++) {
-//            apkAttrI = apkAttrList.get(i);
-//            hashesI = new HashSet<String>(apkAttrI.getFileHashMap().values());
-//            ilen = hashesI.size();
-//            for (int j = i+1; j < numOfFiles; j++) {
-//                apkAttrJ = apkAttrList.get(j);
-//                hashesJ = new HashSet<String>(apkAttrJ.getFileHashMap().values());
-//                jlen = hashesJ.size();
-//                jaccardDist = PairComparator.getJaccardDistance(hashesI, hashesJ);
-//                sameCerts = PairComparator.certsTheSame(apkAttrI, apkAttrJ);
-//                outLine = createOutString(apkAttrI.getApkName(), apkAttrJ.getApkName(), ilen, jlen, jaccardDist, sameCerts);
-//                writer.println(outLine);
-//            }
-//            System.out.println(String.valueOf(i) + " th file [" + apkAttrI.getApkName() + "] compared with others!");
-//        }
-//            
-//        writer.close();
     }
 
     private String createOutString(String apkName, String apkName2,

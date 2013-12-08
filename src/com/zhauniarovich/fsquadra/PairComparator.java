@@ -1,6 +1,5 @@
 package com.zhauniarovich.fsquadra;
 
-import java.security.cert.Certificate;
 import java.util.HashSet;
 
 public class PairComparator {
@@ -9,23 +8,23 @@ public class PairComparator {
     }
     
     public static boolean certsTheSame(ApkFileAttributes fileAttr1, ApkFileAttributes fileAttr2) {
-        Certificate[] s1 = fileAttr1.getCertificates();
-        Certificate[] s2 = fileAttr2.getCertificates();
+        String[] s1 = fileAttr1.getCertHashes();
+        String[] s2 = fileAttr2.getCertHashes();
         
         if ((s1 == null) || (s2 == null)) {
             System.out.println("One of two or both certificates are null!");
             return false;
         }
         
-        HashSet<Certificate> set1 = new HashSet<Certificate>();
-        for (Certificate sig : s1) {
-            set1.add(sig);
+        HashSet<String> set1 = new HashSet<String>();
+        for (String h : s1) {
+            set1.add(h);
         }
-        HashSet<Certificate> set2 = new HashSet<Certificate>();
-        for (Certificate sig : s2) {
-            set2.add(sig);
+        HashSet<String> set2 = new HashSet<String>();
+        for (String h : s2) {
+            set2.add(h);
         }
-        // Make sure s2 contains all signatures in s1.
+        // Make sure s2 contains all hashes in s1.
         if (set1.equals(set2)) {
             return true;
         }

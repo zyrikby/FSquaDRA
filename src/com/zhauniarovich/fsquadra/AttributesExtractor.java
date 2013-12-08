@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,8 +34,8 @@ public class AttributesExtractor {
             //We are not manage to read file
             return null;
         }
-        Certificate[] certs = collectCertificates(apkFile);
-        if (certs == null) {
+        String[] certHashes = collectCertificateHashes(apkFile);
+        if (certHashes == null) {
             //It seems that the package is not valid
             return null;
         }
@@ -40,7 +43,7 @@ public class AttributesExtractor {
         ApkFileAttributes attrs = new ApkFileAttributes();
         attrs.setApkName(apkFile.getName());
         attrs.addAllHashes(fileHashMap);
-        attrs.setCertificates(certs);
+        attrs.setCertHashes(certHashes);
         return attrs;
     }
     
@@ -100,8 +103,8 @@ public class AttributesExtractor {
     private static final Object mSync = new Object();
     private static WeakReference<byte[]> mReadBuffer;
     
-    
-    private static Certificate[] collectCertificates(File apkFile) {
+      
+    private static String[] collectCertificateHashes(File apkFile) {
         System.out.println("Getting certificates from file: " + apkFile.getName());
         WeakReference<byte[]> readBufferRef;
         byte[] readBuffer = null;
@@ -151,22 +154,31 @@ public class AttributesExtractor {
             mReadBuffer = readBufferRef;
         }
         
-        return certs;
-        
-
 //        we can later get the hashes of certificates to reduce memory consumption
 //        or to improve speed of calculation
-//        String[] certHashes = null;
-//        
-//        if (certs != null && certs.length > 0) {
-//            final int N = certs.length;
-//            certHashes = new String[certs.length];
-//            for (int i=0; i<N; i++) {
-//                certHashes[i] = new String(
-//                        certs[i].getEncoded().hashCode());
-//        }
-//        
-//        return certHashes;
+        String[] certHashes = null;
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+        
+        if (certs != null && certs.length > 0) {
+            final int N = certs.length;
+            certHashes = new String[certs.length];
+            for (int i=0; i<N; i++) {
+                try {
+                    certHashes[i] = new String(digest.digest(certs[i].getEncoded()));
+                } catch (CertificateEncodingException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+        
+        return certHashes;
     }
     
     private static Certificate[] loadCertificates(JarFile jarFile, JarEntry je,
