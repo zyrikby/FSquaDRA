@@ -21,15 +21,12 @@ please use the following bibtex reference to cite our paper:
 
 ```
 @inproceedings{Fsquadra_Zhauniarovich2014,
-    author = {Zhauniarovich, Yury and 
-              Gadyatskaya, Olga and 
-              Crispo, Bruno and 
-              La Spina, Francesco and 
-              Moser, Ermanno},
-    title = {{FS}qua{DRA}: {F}ast {D}etection of {R}epackaged {A}pplications},
+    author = {Zhauniarovich, Yury and Gadyatskaya, Olga and Crispo, Bruno and La Spina, Francesco and Moser, Ermanno},
+    title = {{FSquaDRA: Fast Detection of Repackaged Applications}},
+    booktitle = {Proceedings of the 28th Annual IFIP WG 11.3 Working Conference on Data and Applications Security and Privacy},
+    series = {DBSec '14},
+    pages = {131--146},
     year = {2014},
-    booktitle = {Proceedings of the 28th Annual IFIP WG 11.3 Working Conference 
-                 on Data and Applications Security and Privacy},
     note = {to appear},
 }
 ```
