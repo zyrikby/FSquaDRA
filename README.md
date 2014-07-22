@@ -27,7 +27,6 @@ please use the following bibtex reference to cite our paper:
     series = {DBSec '14},
     pages = {131--146},
     year = {2014},
-    note = {to appear},
 }
 ```
 
