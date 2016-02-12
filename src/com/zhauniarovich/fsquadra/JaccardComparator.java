@@ -185,13 +185,13 @@ public class JaccardComparator {
     private String createOutString(String apkName, String apkName2,
             int ilen, int jlen, double jaccardSim, boolean sameCerts) {
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append(apkName).append(";");
-        strBuilder.append(apkName2).append(";");
-        strBuilder.append(ilen).append(";");
-        strBuilder.append(jlen).append(";");
+        strBuilder.append(apkName).append(",");
+        strBuilder.append(apkName2).append(",");
+        strBuilder.append(ilen).append(",");
+        strBuilder.append(jlen).append(",");
         DecimalFormat df = new DecimalFormat("0.00000000");
-        strBuilder.append(df.format(jaccardSim)).append(";");
-        strBuilder.append(String.valueOf(sameCerts)).append(";");
+        strBuilder.append(df.format(jaccardSim)).append(",");
+        strBuilder.append(sameCerts ? "same" : "diff");
         return strBuilder.toString();
     }
     
