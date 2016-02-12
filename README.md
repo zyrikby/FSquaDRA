@@ -15,9 +15,9 @@ This work has been done in the University of Trento.
 
 
 ##Publication
-The results of our research will be presented on the 28th Annual IFIP WG 11.3 
-Working Conference on Data and Applications Security and Privacy. Currently, 
-please use the following bibtex reference to cite our paper:
+The results of our research were presented on the 28th Annual IFIP WG 11.3 
+Working Conference on Data and Applications Security and Privacy. Please,
+use the following bibtex reference to cite our paper:
 
 ```
 @inproceedings{Fsquadra_Zhauniarovich2014,
@@ -41,13 +41,13 @@ can be run in the following way:
 java -jar fsquadra.jar <path1> <path2> -o=<result_file>
 ```
 
-where *<path1>* is a path to the first apk file or folder with apk files, 
-*<path2>* is a path to the second apk file or folder with apk files. The tool 
-will take all files from the *<path1>* and compare them pair wise with the files 
-in *<path2>*. *<path2>* may be absent, in this case, FSquaDRA will compare pair 
-wise all the files inside *<path1>* folder. 
+where *path1* is a path to the first apk file or folder with apk files, 
+*path2* is a path to the second apk file or folder with apk files. The tool 
+will take all files from the *path1* and compare them pair wise with the files 
+in *path2*. *path2* may be absent, in this case, FSquaDRA will compare pair 
+wise all the files inside *path1* folder. 
 
-The results of the comparison will be written into *<result_file>* in csv 
+The results of the comparison will be written into *result_file* in csv 
 format in the following way:
 
 ```
