@@ -58,6 +58,7 @@ public class JaccardComparator {
     private ArrayList<ApkFileAttributes> getApkAttributesToMemory(String path) {
         System.out.println("Starting to fill the memory with data from path: " + path);
         File[] filesToConsider = getApkFileList(path);
+        ArrayList<File> skippedFiles = new ArrayList<File>();
         final int filesNum = filesToConsider.length;
         
         ArrayList<ApkFileAttributes> apkAttrList = new ArrayList<ApkFileAttributes>(filesNum);
@@ -70,6 +71,7 @@ public class JaccardComparator {
             total++;
             if (att == null) {
                 skipped++;
+                skippedFiles.add(filesToConsider[i]);
                 continue;
             }
             
@@ -77,6 +79,10 @@ public class JaccardComparator {
         }
         System.out.println("Processed: " + total + ", skipped: " + skipped + 
                 " files from path [" + path + "]");
+        System.out.println("Skipped files:");
+        for (int i = 0; i < skipped; i++) {
+        	System.out.println(skippedFiles.get(i).getName());
+        }
         
         return apkAttrList;
     }
@@ -129,9 +135,9 @@ public class JaccardComparator {
                     hashesJ = new HashSet<String>(apkAttrJ.getFileHashMap().values());
                     jlen = hashesJ.size();
                     jaccardSim = PairComparator.getJaccardIndex(hashesI, hashesJ);
-                    if (jaccardSim == 0) {
-                        continue;
-                    }
+//                    if (jaccardSim == 0) {
+//                        continue;
+//                    }
                     sameCerts = PairComparator.certsTheSame(apkAttrI, apkAttrJ);
                     outLine = createOutString(apkAttrI.getApkName(), apkAttrJ.getApkName(), ilen, jlen, jaccardSim, sameCerts);
                     writer.println(outLine);
@@ -161,9 +167,9 @@ public class JaccardComparator {
                     hashesJ = new HashSet<String>(apkAttrJ.getFileHashMap().values());
                     jlen = hashesJ.size();
                     jaccardSim = PairComparator.getJaccardIndex(hashesI, hashesJ);
-                    if (jaccardSim == 0) {
-                        continue;
-                    }
+//                    if (jaccardSim == 0) {
+//                        continue;
+//                    }
                     sameCerts = PairComparator.certsTheSame(apkAttrI, apkAttrJ);
                     outLine = createOutString(apkAttrI.getApkName(), apkAttrJ.getApkName(), ilen, jlen, jaccardSim, sameCerts);
                     writer.println(outLine);

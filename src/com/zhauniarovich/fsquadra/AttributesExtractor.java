@@ -35,18 +35,15 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 
 public class AttributesExtractor {
     
     /** File name in an APK for the Android manifest. */
     private static final String ANDROID_MANIFEST_FILENAME = "AndroidManifest.xml";
-
+    public static final String MANIFEST_NAME = "META-INF/MANIFEST.MF";
     
     
-    public static ApkFileAttributes getApkAttributes (File apkFile) {
+    public static ApkFileAttributes getApkAttributes(File apkFile) {
         Map<String, String> fileHashMap = getFileHashMap(apkFile);
         if (fileHashMap == null) {
             //We are not manage to read file
@@ -66,7 +63,7 @@ public class AttributesExtractor {
     }
     
     
-    public static ApkFileAttributes getApkAttributes (String apkFilePath) {
+    public static ApkFileAttributes getApkAttributes(String apkFilePath) {
         File f = new File(apkFilePath);
         if (!f.exists()) {
             return null;
@@ -75,48 +72,47 @@ public class AttributesExtractor {
     }
     
     
-    
     private static Map<String, String> getFileHashMap(File apkFile) {
-        System.out.println("Getting map of files and hashes from file: " + apkFile.getName());
-        try {
-            ZipFile zf = new ZipFile(apkFile);
+    	System.out.println("Getting FileHashMap for: " + apkFile.getName());
+    	JarFile apkJar = null;
+    	Manifest manifest = null;
+    	try {
+			apkJar = new JarFile(apkFile);
+			manifest = apkJar.getManifest();
+		} catch (IOException e) {
+			System.out.println("Exception reading " + apkFile.getName());
+			e.printStackTrace();
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("Exception reading " + apkFile.getName());
+			e.printStackTrace();
+			return null;
+		}
+    	finally {
+    		if (apkJar != null)
+    			try {
+    				apkJar.close();
+    			} catch(Exception e) {}
+    	}
+    	
+    	if (manifest == null) {
+    		System.out.println("Manifest File cannot be found: " + apkFile.getName());
+    		return null;
+    	}
+			
+    	Map<String, String> fileHashMap = new HashMap<String, String>();
+		HashMap<String, Attributes> map = (HashMap<String, Attributes>) manifest.getEntries();
+		Iterator<Entry<String, Attributes>> it = map.entrySet().iterator();
+		Entry<String, Attributes> pair;
+		while (it.hasNext()) {
+			pair = it.next();
+			fileHashMap.put(pair.getKey().toString(), pair.getValue().getValue("SHA1-Digest"));
+		}
 
-            ZipEntry ze = zf.getEntry("META-INF/MANIFEST.MF");
-            if (ze == null) {
-                ze = zf.getEntry("META-INF/manifest.mf");
-                if (ze == null) {
-                    System.out.println("Cannot read manifest file! Returning null!");
-                    return null;
-                }
-            }
-
-            InputStream is = zf.getInputStream(ze);
-            Manifest manifest = new Manifest(is);
-            HashMap <String, Attributes> map  = (HashMap<String, Attributes>) manifest.getEntries();
-            Iterator <Entry <String, Attributes>> it = map.entrySet().iterator();
-            Entry<String, Attributes> pair;
-            Map<String, String> fileHashMap = new HashMap<String, String>();
-            while (it.hasNext()) {
-                pair = it.next();
-                fileHashMap.put(pair.getKey().toString(), pair.getValue().getValue("SHA1-Digest"));
-            }
-
-            is.close();
-            zf.close();
-            return fileHashMap;
-        }
-        catch (ZipException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+		return fileHashMap;
     }
     
-    
-    
-    // this part is from AOSP
+//    // this part is from AOSP
     private static final Object mSync = new Object();
     private static WeakReference<byte[]> mReadBuffer;
     
@@ -171,8 +167,8 @@ public class AttributesExtractor {
             mReadBuffer = readBufferRef;
         }
         
-//        we can later get the hashes of certificates to reduce memory consumption
-//        or to improve speed of calculation
+
+        
         String[] certHashes = null;
         MessageDigest digest;
         try {
