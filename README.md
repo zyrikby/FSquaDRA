@@ -51,7 +51,7 @@ The results of the comparison will be written into *result_file* in csv
 format in the following way:
 
 ```
-apkName1;apkName2;numberOfFilesInApk1;numberOfFilesInApk2;jaccardSimilarity;ifTheCertificatesAreTheSame;
+apkName1,apkName2,numberOfFilesInApk1,numberOfFilesInApk2,jaccardSimilarity,ifTheCertificatesAreTheSame
 ```
 
 
