@@ -1,6 +1,6 @@
-#FSquaDRA
+# FSquaDRA
 
-##Description
+## Description
 FSquaDRA is a tool for detection of repackaged Android applications. The 
 approach is based on the idea that repackaged applications want to maintain 
 "look and feel" of the originals.
@@ -14,7 +14,7 @@ This work has been done in the University of Trento.
 
 
 
-##Publication
+## Publication
 The results of our research were presented on the 28th Annual IFIP WG 11.3 
 Working Conference on Data and Applications Security and Privacy. Please,
 use the following bibtex reference to cite our paper:
@@ -33,7 +33,7 @@ use the following bibtex reference to cite our paper:
 
 
 
-##Usage
+## Usage
 We would recommend to build a jar file from the project. In this case, the tool 
 can be run in the following way:
 
@@ -57,13 +57,13 @@ apkName1,apkName2,numberOfFilesInApk1,numberOfFilesInApk2,jaccardSimilarity,ifTh
 
 
 
-##Libraries
+## Libraries
 The tool uses [jCommander](http://jcommander.org/) library to parse command 
 line arguments.
 
 
 
 
-##License
+## License
 The tool is distributed under Apache-2.0 license. The citation of the paper is 
 highly appreciated.
