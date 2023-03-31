@@ -1,0 +1,19 @@
+abstract: Fast detection of repackaged Android applications based on the comparison of resource files included into the package.
+authors:
+  - family-names: Zhauniarovich
+    given-names: Yury
+    orcid: "https://orcid.org/0000-0001-9116-0728"
+cff-version: 1.2.0
+date-released: "2013-11-30"
+identifiers:
+  - type: url
+    value: "https://github.com/zyrikby/FSquaDRA/tree/dc42c93991240da0fc9f1081e72be3eeb17d2638"
+    description: Latest version
+keywords:
+  - research
+  - "detection repackaged Android applications"
+  - "resouce files"
+license: Apache-2.0
+message: If you use this software, please cite it using these metadata.
+repository-code: "https://github.com/zyrikby/FSquaDRA"
+title: FSquaDRA
