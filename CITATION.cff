@@ -31,8 +31,10 @@ preferred-citation:
     given-names: "Francesco"
   - family-names: "Moser"
     given-names: "Ermanno"
+  collection-title: "28th Annual IFIP WG 11.3 Working Conference on Data and Applications Security and Privacy"
+  collection-type: "proceedings"
   conference:
-    name: "28th Annual IFIP WG 11.3 Working Conference on Data and Applications Security and Privacy"
+    name: "DBSec"
   doi: "10.1007/978-3-662-43936-4_9"
   start: 131 # First page number
   end: 146 # Last page number
